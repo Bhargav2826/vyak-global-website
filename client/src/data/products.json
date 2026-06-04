@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Black Pepper Powder",
+    "shortDescription": "Premium finely ground black pepper with a robust, spicy flavor.",
+    "description": "Our Black Pepper Powder is sourced from the finest pepper vines, delivering an intense aroma and sharp, penetrating flavor. Essential for almost every savory dish.",
+    "benefits": ["Rich in antioxidants", "Improves digestion", "Enhances nutrient absorption"],
+    "packaging": "250g, 500g, 1kg, 5kg bulk packs",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 2,
+    "name": "Mango Powder (Amchoor)",
+    "shortDescription": "Tangy and fruity powder made from dried unripe green mangoes.",
+    "description": "Amchoor is a fruity spice powder that adds a honey-like fragrance and sour fruity flavor without adding moisture. Perfect for marinades and curries.",
+    "benefits": ["High in Vitamin A and C", "Aids digestion", "Promotes healthy skin"],
+    "packaging": "250g, 500g, 1kg packs",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1615486171448-4fd1ebbc3243?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Turmeric Powder",
+    "shortDescription": "Vibrant yellow spice with a warm, bitter taste and golden color.",
+    "description": "Our Turmeric Powder is ground from high-quality, sun-dried turmeric root. Known for its brilliant golden color and earthy flavor, it's a staple in Indian cooking.",
+    "benefits": ["Natural anti-inflammatory", "Powerful antioxidant", "Boosts brain function"],
+    "packaging": "500g, 1kg, 5kg bulk, 25kg sacks",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1615485925600-97237c4fc1ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 4,
+    "name": "Red Chilli Powder",
+    "shortDescription": "Fiery and intensely colored red chilli powder for that perfect heat.",
+    "description": "Add vibrant color and sharp heat to your dishes with our premium Red Chilli Powder. Specially blended for the perfect balance of heat and flavor.",
+    "benefits": ["Boosts metabolism", "Pain relief properties", "Rich in Vitamin C"],
+    "packaging": "250g, 500g, 1kg, 5kg bulk",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 5,
+    "name": "Coriander Powder",
+    "shortDescription": "Mild, sweet, and citrusy flavor profile essential for curries.",
+    "description": "Ground from roasted coriander seeds, this versatile spice adds a mild, earthy, and sweet note to curries, stews, and marinades.",
+    "benefits": ["Lowers blood sugar", "Rich in immune-boosting antioxidants", "Promotes heart health"],
+    "packaging": "500g, 1kg, 5kg packs",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 6,
+    "name": "Cumin Powder",
+    "shortDescription": "Earthy, nutty, and warm spice perfect for hearty dishes.",
+    "description": "Made from freshly roasted cumin seeds to release maximum essential oils. Essential for Mexican, Indian, and Middle Eastern cuisines.",
+    "benefits": ["Promotes digestion", "Rich in iron", "May help with blood sugar control"],
+    "packaging": "250g, 500g, 1kg packs",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 7,
+    "name": "Garam Masala",
+    "shortDescription": "A warming blend of premium aromatic spices.",
+    "description": "Our signature Garam Masala is a traditional blend of roasted whole spices. A pinch adds incredible depth and aroma to any dish.",
+    "benefits": ["Boosts digestion", "Strong antioxidant properties", "Helps regulate blood pressure"],
+    "packaging": "100g, 250g, 500g, 1kg packs",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 8,
+    "name": "Kitchen King Masala",
+    "shortDescription": "The ultimate versatile spice blend for everyday cooking.",
+    "description": "A complex blend of over 15 spices. Kitchen King Masala is your go-to spice mix for paneer, vegetables, and rich gravies.",
+    "benefits": ["Enhances overall flavor profile", "Contains numerous beneficial spices", "Time-saving blend"],
+    "packaging": "100g, 250g, 500g, 1kg packs",
+    "exportAvailability": "Available for global export",
+    "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  }
+]

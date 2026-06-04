@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Ahmed Al-Fayed",
+    "country": "United Arab Emirates",
+    "review": "VYAK Global has been our trusted supplier for 5 years. Their spice quality is unmatched in the Middle East market.",
+    "rating": 5,
+    "image": "https://randomuser.me/api/portraits/men/32.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Sarah Jenkins",
+    "country": "United Kingdom",
+    "review": "The packaging is excellent, and the spices retain their aroma for months. Highly recommend their turmeric and cumin.",
+    "rating": 5,
+    "image": "https://randomuser.me/api/portraits/women/44.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Rajesh Patel",
+    "country": "USA",
+    "review": "Importing Indian spices used to be a hassle until we partnered with VYAK. Seamless logistics and premium quality.",
+    "rating": 5,
+    "image": "https://randomuser.me/api/portraits/men/67.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Maria Garcia",
+    "country": "Spain",
+    "review": "Their red chilli powder has the perfect color and heat profile our clients demand. A fantastic export partner.",
+    "rating": 4,
+    "image": "https://randomuser.me/api/portraits/women/68.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Kenji Sato",
+    "country": "Japan",
+    "review": "Impeccable hygiene standards and certifications. We are very satisfied with their bulk Garam Masala shipments.",
+    "rating": 5,
+    "image": "https://randomuser.me/api/portraits/men/22.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Elena Rostova",
+    "country": "Russia",
+    "review": "Great pricing for the premium quality they deliver. Customer service is always responsive and helpful.",
+    "rating": 5,
+    "image": "https://randomuser.me/api/portraits/women/31.jpg"
+  }
+]

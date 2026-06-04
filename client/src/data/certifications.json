@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "ISO 9001:2015",
+    "description": "Certified for Quality Management Systems, ensuring consistent quality in our manufacturing processes."
+  },
+  {
+    "id": 2,
+    "title": "FSSAI Approved",
+    "description": "Compliant with Food Safety and Standards Authority of India for safe food production."
+  },
+  {
+    "id": 3,
+    "title": "GMP Certified",
+    "description": "Good Manufacturing Practices certified, guaranteeing hygiene and safety at every step."
+  },
+  {
+    "id": 4,
+    "title": "Export Quality Standard",
+    "description": "Meeting stringent international quality and packaging standards for global export."
+  }
+]

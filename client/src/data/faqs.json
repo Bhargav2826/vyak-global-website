@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "question": "Which countries do you export to?",
+    "answer": "We currently export our premium spices to over 15 countries worldwide, including the USA, UK, UAE, Australia, Japan, and parts of Europe."
+  },
+  {
+    "id": 2,
+    "question": "What is the Minimum Order Quantity (MOQ)?",
+    "answer": "Our MOQ varies by product and packaging size. Generally, for international shipping, our MOQ starts at 100kg per product. Please contact us for specific requirements."
+  },
+  {
+    "id": 3,
+    "question": "What packaging options do you offer?",
+    "answer": "We offer bulk packaging (5kg, 10kg, 25kg bags/sacks) as well as retail-ready packaging (100g, 250g, 500g, 1kg pouches/jars). We also provide private labeling services upon request."
+  },
+  {
+    "id": 4,
+    "question": "What is your typical delivery timeline?",
+    "answer": "Delivery timelines depend on the destination and shipping method (air vs. sea freight). Order processing takes 7-10 business days, followed by transit time which ranges from 5 to 30 days."
+  },
+  {
+    "id": 5,
+    "question": "Are your products certified for quality?",
+    "answer": "Yes, all our products undergo rigorous quality testing. We are ISO 9001:2015, GMP, and FSSAI certified, ensuring our spices meet international export standards."
+  }
+]
