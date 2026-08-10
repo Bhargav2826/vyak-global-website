@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCheckCircle } from 'react-icons/fi';
 
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
+
 const InquiryForm = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -9,10 +11,12 @@ const InquiryForm = () => {
     email: '',
     phone: '',
     product: '',
-    message: ''
+    message: '',
+    requestType: 'Catalog Request'
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,40 +24,39 @@ const InquiryForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setErrorMsg('');
-
-    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
+    setIsLoading(true);
+    setError('');
 
     try {
-      const response = await fetch(`${API_URL}/api/inquiries`, {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        phone: formData.phone,
+        message: formData.message || `Interested in: ${formData.product}`,
+        requestType: formData.product === 'Multiple/Assorted' ? 'Bulk Order' : 'Catalog Request'
+      };
+
+      const res = await fetch(`${API_BASE}/api/inquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          phone: formData.phone,
-          message: `Product Interested: ${formData.product || 'General'}. Requirements: ${formData.message || 'Requested quote & details.'}`,
-          requestType: 'Request Quote'
-        })
+        body: JSON.stringify(payload)
       });
 
-      if (response.ok) {
+      if (res.ok) {
         setIsSubmitted(true);
-        setFormData({ name: '', company: '', email: '', phone: '', product: '', message: '' });
         setTimeout(() => {
           setIsSubmitted(false);
+          setFormData({ name: '', company: '', email: '', phone: '', product: '', message: '', requestType: 'Catalog Request' });
         }, 5000);
       } else {
-        const data = await response.json();
-        setErrorMsg(data.message || 'Failed to send inquiry. Please try again.');
+        const data = await res.json();
+        setError(data.message || 'Submission failed. Please try again.');
       }
     } catch (err) {
-      console.error('Inquiry submit error', err);
-      setErrorMsg('Network error. Please check your connection.');
+      setError('Network error. Please check your connection and try again.');
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
@@ -75,11 +78,11 @@ const InquiryForm = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="md:w-7/12 p-10 relative">
             <AnimatePresence>
               {isSubmitted && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
@@ -96,28 +99,37 @@ const InquiryForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name*</label>
-                  <input type="text" required name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors" placeholder="John Doe" />
+                  <input type="text" required name="name" value={formData.name} onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors"
+                    placeholder="John Doe" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Company Name</label>
-                  <input type="text" name="company" value={formData.company} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors" placeholder="ABC Corp" />
+                  <input type="text" name="company" value={formData.company} onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors"
+                    placeholder="ABC Corp" />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address*</label>
-                  <input type="email" required name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors" placeholder="john@example.com" />
+                  <input type="email" required name="email" value={formData.email} onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors"
+                    placeholder="john@example.com" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number*</label>
-                  <input type="tel" required name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors" placeholder="+1 234 567 8900" />
+                  <input type="tel" required name="phone" value={formData.phone} onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors"
+                    placeholder="+1 234 567 8900" />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Interested Product*</label>
-                <select required name="product" value={formData.product} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors">
+                <select required name="product" value={formData.product} onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors">
                   <option value="">Select a product</option>
                   <option value="Black Pepper">Black Pepper</option>
                   <option value="Turmeric">Turmeric</option>
@@ -129,21 +141,26 @@ const InquiryForm = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message / Requirements</label>
-                <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors" placeholder="Tell us about your estimated quantity and packaging needs..."></textarea>
+                <textarea name="message" value={formData.message} onChange={handleChange} rows="4"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors"
+                  placeholder="Tell us about your estimated quantity and packaging needs..."></textarea>
               </div>
 
-              {errorMsg && (
-                <div className="p-3 bg-red-500/10 border border-red-500/30 text-red-500 rounded-lg text-sm font-medium">
-                  {errorMsg}
-                </div>
+              {error && (
+                <p className="text-red-500 text-sm font-medium">{error}</p>
               )}
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-brand-gold hover:bg-yellow-500 disabled:opacity-50 text-white font-bold py-4 rounded-lg shadow-md transition-colors hover:shadow-lg flex items-center justify-center gap-2"
-              >
-                {isSubmitting ? 'Sending Request...' : 'Send Inquiry'}
+              <button type="submit" disabled={isLoading}
+                className="w-full bg-brand-gold hover:bg-yellow-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg shadow-md transition-colors hover:shadow-lg flex items-center justify-center gap-2">
+                {isLoading ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : 'Send Inquiry'}
               </button>
             </form>
           </div>

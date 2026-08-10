@@ -44,27 +44,11 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const refreshAll = () => {
-      fetchProducts();
-      fetchInquiries();
-      fetchAuditLogs();
-      fetchAdminUsers();
-      fetchHealth();
-    };
-
-    refreshAll();
-
-    // Auto-refresh inquiries & stats every 15 seconds
-    const interval = setInterval(refreshAll, 15000);
-
-    // Refresh when admin switches back to tab
-    const handleFocus = () => refreshAll();
-    window.addEventListener('focus', handleFocus);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('focus', handleFocus);
-    };
+    fetchProducts();
+    fetchInquiries();
+    fetchAuditLogs();
+    fetchAdminUsers();
+    fetchHealth();
   }, []);
 
   const getHeaders = () => {
