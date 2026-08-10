@@ -17,9 +17,15 @@ const AdminDashboard = () => {
     try {
       const response = await fetch(`${API_URL}/api/products`);
       const data = await response.json();
-      setProducts(data);
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else {
+        console.error('API did not return an array:', data);
+        setProducts([]);
+      }
     } catch (error) {
       console.error('Failed to fetch products', error);
+      setProducts([]);
     }
   }
 
@@ -36,9 +42,10 @@ const AdminDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('adminToken');
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
     const url = isEditing 
-      ? `http://localhost:5001/api/products/${currentProduct._id}`
-      : 'http://localhost:5001/api/products';
+      ? `${API_URL}/api/products/${currentProduct._id}`
+      : `${API_URL}/api/products`;
     const method = isEditing ? 'PUT' : 'POST';
 
     try {
@@ -80,8 +87,9 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     
     const token = localStorage.getItem('adminToken');
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
     try {
-      const response = await fetch(`http://localhost:5001/api/products/${id}`, {
+      const response = await fetch(`${API_URL}/api/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
