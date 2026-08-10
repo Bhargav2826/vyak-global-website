@@ -31,7 +31,7 @@ const clientBuildPath = path.join(__dirname, '../client/dist');
 app.use(express.static(clientBuildPath));
 
 // Catch-all route to serve React's index.html for non-API requests (enables React Router)
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
 
