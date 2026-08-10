@@ -20,6 +20,11 @@ client/dist/
 client/dist-ssr/
 *.local
 
+# Environment variables (NEVER commit these)
+.env
+server/.env
+**/.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

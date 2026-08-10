@@ -28,12 +28,19 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             <FiX size={24} />
           </button>
 
-          <div className="md:w-1/2 relative h-64 md:h-auto">
-            <img 
-              src={product.image} 
-              alt={product.name} 
-              className="w-full h-full object-cover"
-            />
+          {/* Image section — only render img tag if src exists */}
+          <div className="md:w-1/2 relative h-64 md:h-auto bg-gray-200 dark:bg-gray-700">
+            {product.image ? (
+              <img 
+                src={product.image} 
+                alt={product.name} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                <FiBox size={64} />
+              </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
             <h2 className="absolute bottom-4 left-6 text-3xl font-bold text-white md:hidden">{product.name}</h2>
           </div>
@@ -43,39 +50,56 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             <div className="w-16 h-1 bg-brand-gold mb-6"></div>
             
             <p className="text-gray-700 dark:text-gray-300 text-lg mb-8 leading-relaxed">
-              {product.description}
+              {product.description || product.shortDescription}
             </p>
 
             <div className="space-y-6">
-              <div>
-                <h4 className="text-lg font-semibold flex items-center gap-2 mb-3 dark:text-white">
-                  <FiCheckCircle className="text-brand-gold" /> Key Benefits
-                </h4>
-                <ul className="grid grid-cols-1 gap-2">
-                  {product.benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
-                      <span className="text-brand-gold mt-1">•</span> {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {/* Benefits — only show if the product has them */}
+              {product.benefits && product.benefits.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-semibold flex items-center gap-2 mb-3 dark:text-white">
+                    <FiCheckCircle className="text-brand-gold" /> Key Benefits
+                  </h4>
+                  <ul className="grid grid-cols-1 gap-2">
+                    {product.benefits.map((benefit, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
+                        <span className="text-brand-gold mt-1">•</span> {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-              <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl space-y-4">
-                <div className="flex items-start gap-3">
-                  <FiBox className="text-2xl text-brand-gold mt-1" />
-                  <div>
-                    <h5 className="font-semibold dark:text-white">Packaging Options</h5>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{product.packaging}</p>
-                  </div>
+              {/* Price — show for API products */}
+              {product.price !== undefined && (
+                <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+                  <p className="text-2xl font-bold text-brand-gold">${product.price}</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <FiGlobe className="text-2xl text-brand-gold mt-1" />
-                  <div>
-                    <h5 className="font-semibold dark:text-white">Export Availability</h5>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{product.exportAvailability}</p>
-                  </div>
+              )}
+
+              {/* Packaging / Export — only show if the product has them */}
+              {(product.packaging || product.exportAvailability) && (
+                <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl space-y-4">
+                  {product.packaging && (
+                    <div className="flex items-start gap-3">
+                      <FiBox className="text-2xl text-brand-gold mt-1" />
+                      <div>
+                        <h5 className="font-semibold dark:text-white">Packaging Options</h5>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{product.packaging}</p>
+                      </div>
+                    </div>
+                  )}
+                  {product.exportAvailability && (
+                    <div className="flex items-start gap-3">
+                      <FiGlobe className="text-2xl text-brand-gold mt-1" />
+                      <div>
+                        <h5 className="font-semibold dark:text-white">Export Availability</h5>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{product.exportAvailability}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="mt-10">
@@ -95,3 +119,4 @@ const ProductModal = ({ product, isOpen, onClose }) => {
 };
 
 export default ProductModal;
+

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { fadeUpVariant, staggerContainer } from '../hooks/useScrollReveal';
@@ -9,6 +9,33 @@ import productsData from '../data/products.json';
 const ProductsSection = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [apiProducts, setApiProducts] = useState([]);
+  
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('http://localhost:5001/api/products');
+        if (res.ok) {
+          const data = await res.json();
+          // Map backend fields to match ProductCard expectations
+          const mappedData = data.map(p => ({
+            id: p._id,
+            name: p.name,
+            shortDescription: p.description,
+            description: p.description,
+            image: p.imageUrl,
+            price: p.price
+          }));
+          setApiProducts(mappedData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch products from API', error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const displayProducts = apiProducts.length > 0 ? apiProducts : productsData;
 
   return (
     <section id="products" className="py-16 md:py-24 bg-brand-cream/30 dark:bg-gray-900/50">
@@ -32,7 +59,7 @@ const ProductsSection = () => {
           animate={inView ? "visible" : "hidden"}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
         >
-          {productsData.map((product) => (
+          {displayProducts.map((product) => (
             <motion.div key={product.id} variants={fadeUpVariant}>
               <ProductCard 
                 product={product} 
