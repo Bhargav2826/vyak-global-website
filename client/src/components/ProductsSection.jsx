@@ -18,7 +18,6 @@ const ProductsSection = () => {
         const res = await fetch(`${API_URL}/api/products`);
         if (res.ok) {
           const data = await res.json();
-          // Map backend fields to match ProductCard expectations
           const mappedData = data.map(p => ({
             id: p._id,
             name: p.name,
@@ -33,7 +32,22 @@ const ProductsSection = () => {
         console.error('Failed to fetch products from API', error);
       }
     };
+
+    // 1. Fetch immediately on mount
     fetchProducts();
+
+    // 2. Auto-refresh every 30 seconds
+    const interval = setInterval(fetchProducts, 30000);
+
+    // 3. Auto-refresh immediately when the user switches back to this tab
+    const handleFocus = () => fetchProducts();
+    window.addEventListener('focus', handleFocus);
+
+    // Cleanup on unmount
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   const displayProducts = apiProducts.length > 0 ? apiProducts : productsData;
