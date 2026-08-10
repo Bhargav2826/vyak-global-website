@@ -11,20 +11,50 @@ const InquiryForm = () => {
     product: '',
     message: ''
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission for static site
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', company: '', email: '', phone: '', product: '', message: '' });
-    }, 5000);
+    setIsSubmitting(true);
+    setErrorMsg('');
+
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
+
+    try {
+      const response = await fetch(`${API_URL}/api/inquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          phone: formData.phone,
+          message: `Product Interested: ${formData.product || 'General'}. Requirements: ${formData.message || 'Requested quote & details.'}`,
+          requestType: 'Request Quote'
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', company: '', email: '', phone: '', product: '', message: '' });
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      } else {
+        const data = await response.json();
+        setErrorMsg(data.message || 'Failed to send inquiry. Please try again.');
+      }
+    } catch (err) {
+      console.error('Inquiry submit error', err);
+      setErrorMsg('Network error. Please check your connection.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -102,8 +132,18 @@ const InquiryForm = () => {
                 <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-gold dark:text-white transition-colors" placeholder="Tell us about your estimated quantity and packaging needs..."></textarea>
               </div>
 
-              <button type="submit" className="w-full bg-brand-gold hover:bg-yellow-500 text-white font-bold py-4 rounded-lg shadow-md transition-colors hover:shadow-lg">
-                Send Inquiry
+              {errorMsg && (
+                <div className="p-3 bg-red-500/10 border border-red-500/30 text-red-500 rounded-lg text-sm font-medium">
+                  {errorMsg}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-brand-gold hover:bg-yellow-500 disabled:opacity-50 text-white font-bold py-4 rounded-lg shadow-md transition-colors hover:shadow-lg flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? 'Sending Request...' : 'Send Inquiry'}
               </button>
             </form>
           </div>
