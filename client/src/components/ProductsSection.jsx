@@ -24,7 +24,10 @@ const ProductsSection = () => {
             shortDescription: p.description,
             description: p.description,
             image: p.imageUrl,
-            price: p.price
+            price: p.price,
+            category: p.category || 'Spices',
+            stock: p.stock,
+            isFeatured: p.isFeatured
           }));
           setApiProducts(mappedData);
         }
