@@ -12,9 +12,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/vyakglobal')
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/vyakglobal';
+
+// Log the URI safely (hiding the password) for debugging on Render
+const safeUri = mongoUri.replace(/:([^:@]{3,})@/, ':****@');
+console.log('Attempting to connect to MongoDB at:', safeUri);
+
+mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 5000 })
+.then(() => console.log('✅ Successfully connected to MongoDB'))
+.catch(err => {
+  console.error('❌ MongoDB connection error. Please check your MONGO_URI in Render Environment Variables and ensure your Atlas Network Access allows 0.0.0.0/0.');
+  console.error('Error details:', err.message);
+});
 
 
 const path = require('path');
