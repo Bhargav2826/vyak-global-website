@@ -9,8 +9,9 @@ const AdminLogin = () => {
 
   React.useEffect(() => {
     const token = localStorage.getItem('adminToken');
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
     if (token) {
-      fetch('http://localhost:5001/api/admin/verify', {
+      fetch(`${API_URL}/api/admin/verify`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(res => {
@@ -24,8 +25,9 @@ const AdminLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
     try {
-      const response = await fetch('http://localhost:5001/api/admin/login', {
+      const response = await fetch(`${API_URL}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

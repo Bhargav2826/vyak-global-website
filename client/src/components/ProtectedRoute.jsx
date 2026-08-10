@@ -12,13 +12,14 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
 
     if (!token) {
       setStatus('unauthorized');
       return;
     }
 
-    fetch('http://localhost:5001/api/admin/verify', {
+    fetch(`${API_URL}/api/admin/verify`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => {

@@ -13,8 +13,9 @@ const ProductsSection = () => {
   
   useEffect(() => {
     const fetchProducts = async () => {
+      const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
       try {
-        const res = await fetch('http://localhost:5001/api/products');
+        const res = await fetch(`${API_URL}/api/products`);
         if (res.ok) {
           const data = await res.json();
           // Map backend fields to match ProductCard expectations

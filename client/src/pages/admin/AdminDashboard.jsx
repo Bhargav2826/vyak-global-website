@@ -13,8 +13,9 @@ const AdminDashboard = () => {
   }, []);
 
   async function fetchProducts() {
+    const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
     try {
-      const response = await fetch('http://localhost:5001/api/products');
+      const response = await fetch(`${API_URL}/api/products`);
       const data = await response.json();
       setProducts(data);
     } catch (error) {

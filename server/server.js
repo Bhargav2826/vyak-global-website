@@ -17,6 +17,8 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/vyakglobal'
 .catch(err => console.error('MongoDB connection error:', err));
 
 
+const path = require('path');
+
 // Routes
 const adminRoutes = require('./routes/adminRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -24,14 +26,14 @@ const productRoutes = require('./routes/productRoutes');
 app.use('/api/admin', adminRoutes);
 app.use('/api/products', productRoutes);
 
-// Default Route
-app.get('/', (req, res) => {
-  res.json({ message: 'VYAK Global API Server is running.' });
-});
+// Serve frontend static files in production
+const clientBuildPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientBuildPath));
 
-// Future API routes placeholder
-// const productRoutes = require('./routes/products');
-// app.use('/api/products', productRoutes);
+// Catch-all route to serve React's index.html for non-API requests (enables React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
